@@ -51,3 +51,8 @@ class DataProcessor:
         scaler = StandardScaler()
         continuous_cols += ['creditutilizationratio', 'loantoincomeratio']
         self.data[continuous_cols] = scaler.fit_transform(self.data[continuous_cols])
+
+    def map_x_y(self):
+        X = self.data.drop('classification', axis=1)
+        y = self.data['classification']
+        return X, y
