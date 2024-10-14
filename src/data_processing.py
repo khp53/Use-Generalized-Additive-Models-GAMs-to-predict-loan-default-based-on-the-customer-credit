@@ -17,3 +17,37 @@ class DataProcessor:
         ]
         self.data = pd.read_csv(self.file_path, names=names, delimiter=' ')
         print(f"Data loaded with shape: {self.data.shape}")
+
+    def preprocess(self):
+        self.data.classification.replace([1, 2], [1, 0], inplace=True)
+        imputer_cont = SimpleImputer(strategy='median')
+        imputer_cat = SimpleImputer(strategy='most_frequent')
+        
+        continuous_cols = ['age', 'creditamount', 'duration', 'installmentrate', 'residencesince', 'existingcredits', 'peopleliable']
+        categorical_cols = [
+            'existingchecking', 'credithistory', 'purpose', 'savings', 'employmentsince',
+            'personalstatus', 'otherdebtors', 'property', 'otherinstallmentplans', 'housing', 'job', 
+            'telephone', 'foreignworker'
+        ]
+        
+        self.data[continuous_cols] = imputer_cont.fit_transform(self.data[continuous_cols])
+        self.data[categorical_cols] = imputer_cat.fit_transform(self.data[categorical_cols])
+        
+        self.data['savings'] = pd.to_numeric(self.data['savings'], errors='coerce').fillna(0)
+        self.data['creditutilizationratio'] = self.data['creditamount'] / (self.data['savings'] + 1)
+        self.data['loantoincomeratio'] = self.data['creditamount'] / (self.data['duration'] + 1)
+        
+        self.data['creditamount'] = np.log1p(self.data['creditamount'])
+        
+        label_cols = ['personalstatus', 'foreignworker', 'telephone']
+        for col in label_cols:
+            le = LabelEncoder()
+            self.data[col] = le.fit_transform(self.data[col])
+        
+        # one-hot encoding
+        self.data = pd.get_dummies(self.data, columns=categorical_cols, drop_first=True)
+        
+        # scaling continuous features
+        scaler = StandardScaler()
+        continuous_cols += ['creditutilizationratio', 'loantoincomeratio']
+        self.data[continuous_cols] = scaler.fit_transform(self.data[continuous_cols])
