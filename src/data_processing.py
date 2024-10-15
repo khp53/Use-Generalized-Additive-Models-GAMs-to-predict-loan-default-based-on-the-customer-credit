@@ -49,7 +49,7 @@ class DataProcessor:
         
         # scaling continuous features
         scaler = StandardScaler()
-        continuous_cols += ['creditutilizationratio', 'loantoincomeratio']
+        continuous_cols += ['creditutilizationratio', 'loantoincomeratio', 'creditamount']
         self.data[continuous_cols] = scaler.fit_transform(self.data[continuous_cols])
 
     def map_x_y(self):
