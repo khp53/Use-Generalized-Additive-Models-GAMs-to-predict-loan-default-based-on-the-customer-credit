@@ -1,2 +1,4 @@
 
 /credit-default-env/
+/.vscode/
+.DS_Store
