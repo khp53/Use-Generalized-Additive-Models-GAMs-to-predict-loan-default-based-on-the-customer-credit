@@ -56,3 +56,8 @@ class DataProcessor:
         X = self.data.drop('classification', axis=1)
         y = self.data['classification']
         return X, y
+    
+    def get_numpy_arrays(self, X_train, X_test):
+        X_train = X_train.astype({col: 'int' for col in X_train.select_dtypes(include=['bool']).columns})
+        X_test = X_test.astype({col: 'int' for col in X_test.select_dtypes(include=['bool']).columns})
+        return X_train.to_numpy(), X_test.to_numpy()
