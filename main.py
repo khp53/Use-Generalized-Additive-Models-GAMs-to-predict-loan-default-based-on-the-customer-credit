@@ -11,7 +11,7 @@ data_processor.preprocess()
 
 X, y = data_processor.map_x_y()
 
-# had to use train test split, cause k-fold cv does not work with nparray conversion
+# Had to use train test split, cause k-fold cv does not work with nparray conversion
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
 X_train_np, X_test_np = data_processor.get_numpy_arrays(X_train, X_test)

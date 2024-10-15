@@ -128,11 +128,9 @@ The model is trained using a logistic GAM. The features are defined as smoothing
 'credithistory_A31', 'credithistory_A32', etc.
 'purpose_A41', 'purpose_A42', etc.
 
-here we used one-hot encoding to convert categorical variables into a format that can be provided to our gam model to understand and improve predictions.
+Here we used one-hot encoding to convert categorical variables into a format that can be provided to our gam model to understand and improve predictions.
 
 ```python
-from pygam import LogisticGAM, s, f
-
 # Define the logistic GAM model
 gam = LogisticGAM(
     s(0) + s(1) + f(2) + ... + f(n),
@@ -148,9 +146,6 @@ gam.fit(X_train_np, y_train)
 The model performance is evaluated using k-fold cross-validation, and the accuracy and AUC-ROC scores are computed.
 
 ```python
-from sklearn.model_selection import KFold, cross_val_score
-
-# Perform k-fold cross-validation
 kf = KFold(n_splits=5, shuffle=True)
 cv_scores = cross_val_score(gam, X_train, y_train, cv=kf, scoring='accuracy')
 ```
@@ -161,6 +156,11 @@ Test Accuracy: 0.75
 Test ROC AUC: 0.6375466638624534
 Cross-Validation Accuracy: 0.7014285714285714
 ```
+This model's text accuracy is 0.75, the model correctly predicted whether a loan would default or not 75% of the time on the test data. This indicates that the model is fairly reliable, though there's still room for improvement, as it misclassifies 1 in 4 cases.
+
+The ROC AUC score of 0.637 suggests that the model is moderately effective at distinguishing between those who will default and those who won’t. A score of 0.5 means random guessing, while 1.0 represents perfect classification, so 0.637 is somewhat above average but not particularly strong. The model could struggle with borderline or hard-to-classify cases.
+
+The cross-validation accuracy of 70% indicates that the model performs reasonably consistently across different data folds, reducing the risk of overfitting. However, it also suggests that the model might not generalize perfectly to new, unseen data.
 
 ## Partial Dependence Plots
 The partial dependence plots visualize the relationship between features and the target variable, providing insights into how changes in a feature impact the model's predictions.
@@ -169,9 +169,7 @@ The hyperparameater lamda's (smoothing penalty) value was choosen based on how t
 If lambda is too low, the model may overfit (creating too wiggly splines). If lambda is too high, the model may underfit (oversmoothing the splines).
 
 ```python
-import matplotlib.pyplot as plt
-
-loan_to_income = gam.partial_dependence(term=9, X=X_train_np)
+loan_to_income = model.gam.partial_dependence(term=9, X=X_train_np, width=0.95)
 plt.plot(loan_to_income[0], loan_to_income[1])
 plt.title('Partial Dependence of Loan-to-Income Ratio')
 plt.xlabel('Loan-to-Income Ratio')
@@ -184,7 +182,7 @@ Here, gam.partial_dependence() is a method that computes the partial dependence 
 
 1. term=9: This specifies which term (or feature) to compute the partial dependence for. In this case, term=9 corresponds to the loan-to-income ratio in the model.
 2. X=X_train_np: This is the input data for which to compute the partial dependence. It should have a 2D array or DataFrame containing the features used in the model.
-3. width=0.95: This is an optional parameter that defines the width of the confidence interval around the partial dependence estimate. A value of 0.95 indicates a 95% confidence interval.
+3. width=0.95: This parameter defines the width of the confidence interval around the partial dependence estimate. A value of 0.95 indicates a 95% confidence interval.
 
 In the loan_to_income there will be two arrays. The first array is the unique values of the loan-to-income ratio. The second array represents the average predicted response (partial dependency) across all other features in the model, averaged over the specified feature in this case loan to income.
 
@@ -240,4 +238,6 @@ https://doi.org/10.1016/j.sorms.2016.10.001.
 
 6. pygam doc: https://pygam.readthedocs.io/en/latest/
 
-7. Error resolving was done using stackoverflow and chatgpt
+7. The test result explanation base line was googled and based on that and the actual model's performance metrics explanation was provided. 
+
+8. Error resolving was done using stackoverflow and chatgpt
