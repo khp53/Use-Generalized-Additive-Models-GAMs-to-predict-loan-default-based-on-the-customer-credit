@@ -14,9 +14,7 @@ This project utilizes Generalized Additive Models (GAMs) to predict loan default
    - [Model Evaluation](#model-evaluation)
    - [Partial Dependence Plots](#partial-dependence-plots)
 4. [Usage](#usage)
-5. [Results](#results)
-6. [Contributing](#contributing)
-7. [License](#license)
+5. [References](#references)
 
 ## Requirements
 
@@ -30,10 +28,10 @@ Ensure you have the following packages installed:
 - matplotlib
 - ucimlrepo
 
-You can install the required packages using pip:
+You can install the required packages using pip, a requirements.txt file has been provided with the project so that one can easily install the needed requirements.
 
 ```bash
-pip install pandas numpy scikit-learn pygam matplotlib ucimlrepo
+pip install -r requirements.txt
 ```
 
 ```bash
@@ -43,65 +41,29 @@ if you are using ucimlrepo directly to fetch data, the dataset id is 144
 ## Data Description
 The dataset contains 1,000 observations and 20 attributes, including financial features and a classification label indicating whether the credit is good or bad. The columns are:
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Column Chips</title>
-    <style>
-        /* Style for the chip container */
-        .chip-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px; /* Space between chips */
-        }
+    - existingchecking
+    - duration
+    - credithistory
+    - purpose
+    - creditamount
+    - savings
+    - employmentsince
+    - installmentrate
+    - personalstatus
+    - otherdebtors
+    - residencesince
+    - property
+    - age
+    - otherinstallmentplans
+    - housing
+    - existingcredits
+    - job
+    - peopleliable
+    - telephone
+    - foreignworker
+    - classification (Target variable)
 
-        /* Style for individual chips */
-        .chip {
-            background-color: #007bff; /* Chip color */
-            color: white; /* Text color */
-            padding: 8px 12px; /* Padding */
-            border-radius: 20px; /* Rounded corners */
-            font-size: 14px; /* Font size */
-            cursor: pointer; /* Cursor style */
-            transition: background-color 0.3s; /* Transition effect */
-        }
-
-        /* Change background color on hover */
-        .chip:hover {
-            background-color: #0056b3; /* Darker shade on hover */
-        }
-    </style>
-</head>
-<body>
-
-    <div class="chip-container">
-        <div class="chip">existingchecking</div>
-        <div class="chip">duration</div>
-        <div class="chip">credithistory</div>
-        <div class="chip">purpose</div>
-        <div class="chip">creditamount</div>
-        <div class="chip">savings</div>
-        <div class="chip">employmentsince</div>
-        <div class="chip">installmentrate</div>
-        <div class="chip">personalstatus</div>
-        <div class="chip">otherdebtors</div>
-        <div class="chip">residencesince</div>
-        <div class="chip">property</div>
-        <div class="chip">age</div>
-        <div class="chip">otherinstallmentplans</div>
-        <div class="chip">housing</div>
-        <div class="chip">existingcredits</div>
-        <div class="chip">job</div>
-        <div class="chip">peopleliable</div>
-        <div class="chip">telephone</div>
-        <div class="chip">foreignworker</div>
-        <div class="chip">classification (Target variable)</div>
-    </div>
-
-</body>
-</html>
+For more accurate description of each column please follow the link provided in the reference section.
 
 # Implementation
 ## Data Processing
@@ -256,3 +218,26 @@ To run the project, execute the main.py file. Ensure the required libraries are 
 ```bash
 python3 main.py
 ```
+
+## References
+
+1. Hastie, T., & Tibshirani, R. (1987). Generalized Additive Models: Some Applications. Journal of the American Statistical Association, 82(398), 371–386. https://doi.org/10.1080/01621459.1987.10478440
+
+2. Francisco Louzada, Anderson Ara, Guilherme B. Fernandes,
+Classification methods applied to credit scoring: Systematic review and overall comparison,
+Surveys in Operations Research and Management Science,
+Volume 21, Issue 2,
+2016,
+Pages 117-134,
+ISSN 1876-7354,
+https://doi.org/10.1016/j.sorms.2016.10.001.
+
+3. Thomas, Lyn C., Consumer Credit Models: Pricing, Profit and Portfolios (Oxford, 2009; online edn, Oxford Academic, 1 May 2009), https://doi.org/10.1093/acprof:oso/9780199232130.001.1
+
+4. Dataset: http://archive.ics.uci.edu/dataset/144/statlog+german+credit+data
+
+5. Data preprocessing help was taken from: https://www.kaggle.com/code/hendraherviawan/predicting-german-credit-default
+
+6. pygam doc: https://pygam.readthedocs.io/en/latest/
+
+7. Error resolving was done using stackoverflow and chatgpt
